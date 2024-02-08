@@ -27,9 +27,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // useEffect(() => {
-  //   handleThemeChange();
-  // }, [mode]);
+  useEffect(() => {
+    handleThemeChange();
+  }, [mode]);
 
   //   Every provider has to return something and almost always, they return context
   //   Whatever we pass the provider as value will be accessible throughout the app
