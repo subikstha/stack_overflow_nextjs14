@@ -18,12 +18,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   //   A function to handle theme change
   const handleThemeChange = () => {
-    if (mode === "dark") {
-      setMode("light");
-      document.documentElement.classList.add("light");
-    } else {
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        matchMedia("(prefers-color-scheme: dark").matches)
+    ) {
       setMode("dark");
       document.documentElement.classList.add("dark");
+    } else {
+      setMode("light");
+      document.documentElement.classList.remove("dark");
     }
   };
 
@@ -31,10 +35,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     handleThemeChange();
   }, [mode]);
 
+  console.log("mode", mode);
+
   //   Every provider has to return something and almost always, they return context
   //   Whatever we pass the provider as value will be accessible throughout the app
   //   It will provide the value to all the children that we nest in the <ThemeContext.Provider>
-  return <ThemeContext.Provider value={{ mode, setMode }}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={{ mode, setMode }}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 // To easily utilize the context that we created, we export a function
