@@ -6,6 +6,13 @@ export const themes = [
   { value: "system", label: "System", icon: "/assets/icons/computer.svg" },
 ];
 
+export const tags = [
+  { title: "NextJS", qty: 500, path: "/nextjs" },
+  { title: "ReactJS", qty: 1200, path: "/reactjs" },
+  { title: "NodeJS", qty: 190, path: "nodejs" },
+  { title: "JS", qty: 450, path: "/js" },
+];
+
 export const sidebarLinks: SidebarLink[] = [
   {
     imgURL: "/assets/icons/home.svg",
