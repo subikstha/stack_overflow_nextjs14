@@ -1,7 +1,7 @@
 import React from "react";
 
-const AskQuestion = () => {
-  return <div>AskQuestion</div>;
+const Page = () => {
+  return <div className="text-dark100_light900">AskQuestion</div>;
 };
 
-export default AskQuestion;
+export default Page;

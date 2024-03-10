@@ -4,6 +4,47 @@ import Link from "next/link";
 import Filter from "@/components/shared/Filter";
 import { HomePageFilters } from "@/constants/filters";
 import HomeFilters from "@/components/home/HomeFilters";
+import QuestionCard from "@/components/cards/QuestionCard";
+import NoResult from "@/components/shared/NoResult";
+
+const questions = [
+  {
+    _id: "1",
+    title:
+      "Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)?",
+    tags: [
+      { _id: "1", name: "Javascript" },
+      { _id: "1", name: "NextJS" },
+    ],
+    author: {
+      _id: "1",
+      name: "Subik Shrestha",
+      picture: "subik.jpg",
+    },
+    upvotes: 2000,
+    answers: [],
+    views: 30,
+    createdAt: new Date(),
+  },
+  {
+    _id: "2",
+    title:
+      "How do ES6 module exports and imports work in JavaScript, and what are the key differences from CommonJS?",
+    tags: [
+      { _id: "1", name: "Javascript" },
+      { _id: "2", name: "NextJS" },
+    ],
+    author: {
+      _id: "1",
+      name: "Rebu Shrestha",
+      picture: "rebu.jpg",
+    },
+    upvotes: 100,
+    answers: [],
+    views: 90,
+    createdAt: new Date(),
+  },
+];
 
 export default function Home() {
   return (
@@ -31,6 +72,32 @@ export default function Home() {
         />
       </div>
       <HomeFilters />
+      <div className="mt-10 flex w-full flex-col gap-6">
+        {questions.length > 0 ? (
+          questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              _id={question._id}
+              title={question.title}
+              author={question.author}
+              tags={question.tags}
+              upvotes={question.upvotes}
+              answers={question.answers}
+              views={question.views}
+              createdAt={question.createdAt}
+            />
+          ))
+        ) : (
+          <NoResult
+            title="No Questions to show"
+            description="Be the first to break the silence! 🚀 Ask a Question and kickstart the
+          discussion. our query could be the next big thing others learn from. Get
+          involved! 💡"
+            link="/ask-question"
+            linkTitle="Ask a Question"
+          />
+        )}
+      </div>
     </>
   );
 }
