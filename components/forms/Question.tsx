@@ -20,11 +20,19 @@ import { Input } from "@/components/ui/input";
 import { QuestionsSchema } from "@/lib/validations";
 import { Badge } from "../ui/badge";
 import Image from "next/image";
+import { createQuestion } from "@/lib/actions/question.action";
+import { usePathname, useRouter } from "next/navigation";
 
 const type: any = "create";
 
-const Question = () => {
+interface Props {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
   // Establishing a reference so that we donot have to manually track the keystroke, we can just
   // extract the value later on
   const editorRef = useRef(null);
@@ -39,17 +47,25 @@ const Question = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     setIsSubmitting(true);
     try {
       // We can do two things here, either we try to create a question or we try to edit a question
-      // Make an async call to our API -> to create a question
+      // Make an async call to our API - to create a question
       // contain all form data
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
 
       // Navigate to homepage
+      router.push("/");
     } catch (error) {
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
@@ -139,6 +155,8 @@ const Question = () => {
                     // @ts-ignore
                     editorRef.current = editor;
                   }}
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
                   initialValue=""
                   init={{
                     height: 350,
