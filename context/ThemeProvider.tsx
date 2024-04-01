@@ -4,8 +4,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface ThemeContextType {
-  mode: String;
-  setMode: (mode: String) => void;
+  mode: string;
+  setMode: (mode: string) => void;
 }
 
 // Now creating the context
