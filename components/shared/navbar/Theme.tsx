@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/menubar";
 import Image from "next/image";
 import { themes } from "@/constants/constants";
-import { Item } from "@radix-ui/react-menubar";
 
 const Theme = () => {
   const { mode, setMode } = useTheme();
