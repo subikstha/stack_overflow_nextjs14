@@ -35,8 +35,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     handleThemeChange();
   }, [mode]);
 
-  console.log("mode", mode);
-
   //   Every provider has to return something and almost always, they return context
   //   Whatever we pass the provider as value will be accessible throughout the app
   //   It will provide the value to all the children that we nest in the <ThemeContext.Provider>

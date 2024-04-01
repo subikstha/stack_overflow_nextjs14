@@ -16,7 +16,6 @@ import { usePathname } from "next/navigation";
 
 const NavContent = () => {
   const pathname = usePathname();
-  console.log("this is pathname", pathname);
   return (
     <section className="flex h-full flex-col gap-6 pt-16">
       {sidebarLinks.map((item) => {
