@@ -6,9 +6,23 @@ import {
   CreateUserParams,
   DeleteUserParams,
   UpdateUserParams,
+  GetAllUsersParams,
 } from "./shared.typs";
 import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
+
+export async function getAllUsers(params: GetAllUsersParams) {
+  try {
+    connectToDatabase();
+
+    // const { page = 1, pageSize = 20, filter, searchQuery } = params;
+    const users = await User.find({}).sort({ createdAt: -1 });
+    console.log("These are the users", { users });
+    return { users };
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export async function getUserById(params: any) {
   try {
