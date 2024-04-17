@@ -7,7 +7,7 @@ import { UserFilters } from "@/constants/filters";
 import Link from "next/link";
 
 export default async function Page() {
-  console.log("this is the community page");
+  // console.log("this is the community page");
   const result = await getAllUsers({});
   return (
     <>

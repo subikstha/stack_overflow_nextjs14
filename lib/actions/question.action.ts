@@ -16,8 +16,8 @@ export async function getQuestions(params: GetQuestionsParams) {
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
       .sort({ createdAt: -1 });
-    console.log(questions);
-    console.log({ questions });
+    // console.log(questions);
+    // console.log({ questions });
     // Return questions in an object bcoz we add some additional stuffs later on
     return { questions };
   } catch (error) {
