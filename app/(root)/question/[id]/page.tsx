@@ -4,7 +4,6 @@ import ParseHTML from "@/components/shared/ParseHTML";
 import RenderTag from "@/components/shared/RenderTag";
 import { getQuestionById } from "@/lib/actions/question.action";
 import { formatLargeNumber, getTimestamp } from "@/lib/utils";
-import { AnyARecord } from "dns";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
