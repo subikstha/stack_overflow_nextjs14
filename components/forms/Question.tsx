@@ -31,7 +31,7 @@ interface Props {
 }
 
 const Question = ({ mongoUserId }: Props) => {
-  const {mode} = useTheme()
+  const { mode } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
