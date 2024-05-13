@@ -7,6 +7,7 @@ import { UserFilters } from "@/constants/filters";
 import Link from "next/link";
 
 export default async function Page() {
+  
   const result = await getAllUsers({});
   return (
     <>

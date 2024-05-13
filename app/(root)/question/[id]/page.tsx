@@ -21,6 +21,7 @@ const page = async ({ params }) => {
   let mongoUser;
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
+    console.log("this is the mongouser and userId", mongoUser, clerkId);
   }
 
   return (
