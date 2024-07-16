@@ -21,7 +21,7 @@ const Metric = ({
   textStyles,
   isAuthor,
 }: MetricProps) => {
-  console.log(typeof value, value);
+  // console.log(typeof value, value);
   const metricContent = (
     <>
       <Image

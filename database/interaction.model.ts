@@ -1,21 +1,24 @@
-import { Schema, model, models, Document } from 'mongoose';
+import { Schema, model, models, Document } from "mongoose";
 
 export interface IInteraction extends Document {
-  name: string;
-  description: string;
-  questions: Schema.Types.ObjectId[];
-  followers: Schema.Types.ObjectId[];
-  createdOn: Date;
+  user: Schema.Types.ObjectId; // refernce to a user
+  action: "string";
+  question: Schema.Types.ObjectId; // reference to questions
+  answer: Schema.Types.ObjectId;
+  tags: Schema.Types.ObjectId;
+  createdAt: Date;
 }
 
 const InteractionSchema = new Schema({
-  name: { type: String, required: true, unique: true },
-  description: { type: String, required: true },
-  questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }], 
-  followers: [{ type: Schema.Types.ObjectId, ref: 'User' }], 
-  createdOn: { type: Date, default: Date.now },
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
+  action: { type: String, required: true },
+  question: { type: Schema.Types.ObjectId, ref: "Question" },
+  answer: { type: Schema.Types.ObjectId, ref: "Answer" },
+  tags: [{ type: Schema.Types.ObjectId, ref: "Tag" }],
+  createdAt: { type: Date, default: Date.now },
 });
 
-const Interaction = models.Interaction || model('Interaction', InteractionSchema);
+const Interaction =
+  models.Interaction || model("Interaction", InteractionSchema);
 
 export default Interaction;

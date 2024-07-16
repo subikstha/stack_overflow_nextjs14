@@ -26,6 +26,18 @@ import { useTheme } from "@/context/ThemeProvider";
 
 const type: any = "create";
 
+// import { z } from "zod";
+
+// const User = z.object({
+//   username: z.string(),
+// });
+
+// User.parse({ username: "Ludwig" });
+
+// // extract the inferred type
+// type User = z.infer<typeof User>;
+// // { username: string }
+
 interface Props {
   mongoUserId: string;
 }
@@ -75,7 +87,7 @@ const Question = ({ mongoUserId }: Props) => {
 
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    field: any
+    field: any,
   ) => {
     if (e.key === "Enter" && field.name === "tags") {
       e.preventDefault();
