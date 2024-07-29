@@ -8,7 +8,6 @@ import React from "react";
 
 const page = async () => {
   const result = await getAllTags({});
-  console.log("tags in the client side", result);
   return (
     <div>
       <h1 className="h1-bold text-dark100_light900">All Tags</h1>
