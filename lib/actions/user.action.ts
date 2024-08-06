@@ -1,5 +1,5 @@
 "use server";
-import {FilterQuery} from 'mongoose'
+import { FilterQuery } from "mongoose";
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
 import {
@@ -9,10 +9,12 @@ import {
   GetAllUsersParams,
   ToggleSaveQuestionParams,
   GetSavedQuestionsParams,
+  GetUserByIdParams,
 } from "./shared.typs";
 import { revalidatePath } from "next/cache";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
+import Answer from "@/database/answer.model";
 
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
@@ -123,7 +125,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
         {
           $pull: { saved: questionId },
         },
-        { new: true }
+        { new: true },
       );
     } else {
       // Add question to saved
@@ -132,7 +134,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
         {
           $addToSet: { saved: questionId },
         },
-        { new: true }
+        { new: true },
       );
     }
 
@@ -144,33 +146,59 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
 }
 
 export async function getSavedQuestions(params: GetSavedQuestionsParams) {
-  try{
+  try {
     connectToDatabase();
-    const {clerkId, page = 1, pageSize = 10, filter, searchQuery} = params;
-    
-    const query : FilterQuery<typeof Question> = searchQuery ? {title: {$regex: new RegExp(searchQuery, 'i')}} : {};
-    const user = await User.findOne({clerkId}).populate({
-      path: 'saved',
+    const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params;
+
+    const query: FilterQuery<typeof Question> = searchQuery
+      ? { title: { $regex: new RegExp(searchQuery, "i") } }
+      : {};
+    const user = await User.findOne({ clerkId }).populate({
+      path: "saved",
       match: query,
       options: {
-        sort: {createdAt: -1}
+        sort: { createdAt: -1 },
       },
       populate: [
-        {path: 'tags', model: Tag, select: "_id name"},
-        {path: 'author', model: User, select: "_id clerkId name picture"}
-      ]
-    })
+        { path: "tags", model: Tag, select: "_id name" },
+        { path: "author", model: User, select: "_id clerkId name picture" },
+      ],
+    });
 
-    if(!user) throw new Error('User not found');
+    if (!user) throw new Error("User not found");
 
     const savedQuestions = user.saved;
 
-    return {questions: savedQuestions}
+    return { questions: savedQuestions };
 
-    console.log('these are the saved questions', savedQuestions);
+    console.log("these are the saved questions", savedQuestions);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+export async function getUserInfo(params: GetUserByIdParams) {
+  try {
+    connectToDatabase();
 
-  } catch(error){
-    console.log(error)
-    throw error
+    const { userId } = params;
+
+    const user = await User.findOne({ clerkId: userId });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const totalQuestions = await Question.countDocuments({ author: user._id });
+    const totalAnswers = await Answer.countDocuments({ author: user._id });
+
+    return {
+      user,
+      totalQuestions,
+      totalAnswers,
+    };
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 }
