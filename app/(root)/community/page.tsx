@@ -7,7 +7,6 @@ import { UserFilters } from "@/constants/filters";
 import Link from "next/link";
 
 export default async function Page() {
-  
   const result = await getAllUsers({});
   return (
     <>
@@ -27,8 +26,8 @@ export default async function Page() {
         />
       </div>
       <section className="mt-12 flex flex-wrap gap-4">
-        {result.users.length > 0 ? (
-          result.users.map((user) => <UserCard key={user._id} user={user} />)
+        {result?.users?.length > 0 ? (
+          result?.users.map((user) => <UserCard key={user._id} user={user} />)
         ) : (
           <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
             <p>No users yet</p>

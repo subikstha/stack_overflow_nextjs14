@@ -143,7 +143,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
         <FormField
           control={form.control}
           name="title"
-          render={({ field }) => (
+          render={({ field }) => (  
             <FormItem className="flex w-full flex-col">
               <FormLabel className="paragraph-semibold text-dark400_light800">
                 Question Title <span className="text-primary-500">*</span>
