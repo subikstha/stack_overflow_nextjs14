@@ -187,7 +187,7 @@ export async function deleteQuestion(params: DeleteQuestionParams) {
 export async function editQuestion(params: EditQuestionParams) {
   try {
     connectToDatabase();
-    const { questionId, title, content,  path } = params;
+    const { questionId, title, content, path } = params;
 
     const question = await Question.findById(questionId).populate("tags");
 
@@ -199,6 +199,19 @@ export async function editQuestion(params: EditQuestionParams) {
     await question.save();
 
     revalidatePath(path);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getHotQuestions() {
+  try {
+    connectToDatabase();
+    const hotQuestions = await Question.find({})
+      .sort({ views: -1, upvotes: -1 })
+      .limit(5);
+    return hotQuestions;
   } catch (error) {
     console.log(error);
     throw error;
