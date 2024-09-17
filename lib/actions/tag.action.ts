@@ -13,7 +13,14 @@ import Question from "@/database/question.model";
 export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
-    const tags = await Tag.find({}).sort({ createdAt: -1 });
+    const {searchQuery} = params;
+    const query: FilterQuery<typeof Tag> = {}
+    if(searchQuery) {
+      query.$or = [{name: {$regex: new RegExp(searchQuery, "i")}}]
+    }
+    console.log('query in getAllTags action is', query);
+
+    const tags = await Tag.find(query).sort({ createdAt: -1 });
 
     // console.log(tags);
     return { tags };

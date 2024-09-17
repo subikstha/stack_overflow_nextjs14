@@ -5,9 +5,12 @@ import { getAllUsers } from "@/lib/actions/user.action";
 import Filter from "@/components/shared/Filter";
 import { UserFilters } from "@/constants/filters";
 import Link from "next/link";
+import { SearchParamsProps } from "@/types";
 
-export default async function Page() {
-  const result = await getAllUsers({});
+export default async function Page({ searchParams }: SearchParamsProps) {
+  const result = await getAllUsers({
+    searchQuery: searchParams.q,
+  });
   return (
     <>
       <h1 className="h1-bold text-dark100_light900">All Users</h1>

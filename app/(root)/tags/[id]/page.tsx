@@ -21,7 +21,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
       <div className="mt-11 w-full">
         <LocalSearchBar
-          route="/"
+          route={`/tags/${params.id}`}
           placeholder="Search tag Questions..."
           iconPosition="left"
           imgSrc="/assets/icons/search.svg"
