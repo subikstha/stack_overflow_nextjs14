@@ -39,7 +39,7 @@ export async function getQuestions(params: GetQuestionsParams) {
     // Connect to the DB
     connectToDatabase();
 
-    const { searchQuery } = params;
+    const { searchQuery, filter } = params;
 
     const query: FilterQuery<typeof Question> = {};
 
@@ -50,12 +50,24 @@ export async function getQuestions(params: GetQuestionsParams) {
       ];
     }
 
-    console.log("query in getQuestions action is", query);
+    let sortOptions = {}
+
+    switch(filter) {
+      case "newest":
+        sortOptions = {createdAt: -1}
+        break;
+      case "frequent":
+        sortOptions = {views: -1}
+        break;
+      case "unanswered":
+        query.answers = {$size: 0}
+        break;
+    }
 
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
-      .sort({ createdAt: -1 });
+      .sort(sortOptions);
     // console.log(questions);
     // console.log({ questions });
     // Return questions in an object bcoz we add some additional stuffs later on

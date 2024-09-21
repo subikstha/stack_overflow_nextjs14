@@ -61,8 +61,11 @@ interface URLQueryParams {
 
 export const formUrlQuery = ({ params, key, value }: URLQueryParams) => {
   // Get the current url
+  console.log("this is the params before", params);
   const currentUrl = qs.parse(params);
+  console.log("this is the currentURL before", currentUrl);
   currentUrl[key] = value;
+  console.log("this is the currentURL after", currentUrl);
   const urlToReturn = qs.stringifyUrl(
     {
       url: window.location.pathname,
@@ -95,5 +98,20 @@ export const removeUrlFromQuery = ({
     },
     { skipNull: true },
   );
+  return urlToReturn;
+};
+
+interface FilterQueryParams {
+  value: string | null;
+}
+
+export const formFilterQuery = ({ value }: FilterQueryParams) => {
+  const urlToReturn = qs.stringifyUrl({
+    url: window.location.pathname,
+    query: {
+      filter: value,
+    },
+  });
+  console.log("this is the url to return in form filter query ", urlToReturn);
   return urlToReturn;
 };
