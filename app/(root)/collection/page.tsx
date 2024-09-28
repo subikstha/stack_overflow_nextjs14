@@ -15,6 +15,7 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
   const result = await getSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
+    filter: searchParams.filter
   });
 
   return (
@@ -32,7 +33,7 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
         <Filter
           filters={QuestionFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
-          containerClasses="hidden max-md:flex"
+          containerClasses="max-md:flex"
         />
       </div>
       <div className="mt-10 flex w-full flex-col gap-6">
