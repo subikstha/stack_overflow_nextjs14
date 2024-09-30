@@ -39,7 +39,10 @@ export async function getQuestions(params: GetQuestionsParams) {
     // Connect to the DB
     connectToDatabase();
 
-    const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 2 } = params;
+
+    // Calculate the number of questions to skip
+    const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof Question> = {};
 
@@ -50,28 +53,36 @@ export async function getQuestions(params: GetQuestionsParams) {
       ];
     }
 
-    let sortOptions = {}
+    let sortOptions = {};
 
-    switch(filter) {
+    switch (filter) {
       case "newest":
-        sortOptions = {createdAt: -1}
+        sortOptions = { createdAt: -1 };
         break;
       case "frequent":
-        sortOptions = {views: -1}
+        sortOptions = { views: -1 };
         break;
       case "unanswered":
-        query.answers = {$size: 0}
+        query.answers = { $size: 0 };
         break;
     }
 
     const questions = await Question.find(query)
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
     // console.log(questions);
     // console.log({ questions });
     // Return questions in an object bcoz we add some additional stuffs later on
-    return { questions };
+    const totalQuestions = await Question.countDocuments(query);
+
+    const isNext = totalQuestions > skipAmount + questions.length;
+    if (isNext) {
+      console.log("next button should be enabled");
+    }
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;
