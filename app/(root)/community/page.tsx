@@ -6,11 +6,13 @@ import Filter from "@/components/shared/Filter";
 import { UserFilters } from "@/constants/filters";
 import Link from "next/link";
 import { SearchParamsProps } from "@/types";
+import Pagination from "@/components/shared/Pagination";
 
 export default async function Page({ searchParams }: SearchParamsProps) {
   const result = await getAllUsers({
     searchQuery: searchParams.q,
-    filter: searchParams.filter
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1
   });
   return (
     <>
@@ -41,6 +43,12 @@ export default async function Page({ searchParams }: SearchParamsProps) {
           </div>
         )}
       </section>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+          isNext={result.isNext}
+        />
+      </div>
     </>
   );
 }
