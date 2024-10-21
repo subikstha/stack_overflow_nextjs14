@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Item } from "@radix-ui/react-menubar";
 import Image from "next/image";
 import GlobalFilters from "./GlobalFilters";
+import { globalSearch } from "@/lib/actions/general.action";
 
 const GlobalResult = () => {
   const searchParams = useSearchParams();
@@ -30,6 +30,8 @@ const GlobalResult = () => {
 
       try {
         // Fetch everything everywhere all at once
+        const res = await globalSearch({ query: global, type });
+        setResult(JSON.parse(res));
       } catch (error) {
         console.error(error);
         throw error;
@@ -37,7 +39,9 @@ const GlobalResult = () => {
         setIsloading(false);
       }
     };
-  });
+
+    if (global) fetchResult();
+  }, [global, type]);
   return (
     <div className="absolute left-0 top-full z-10 mt-3 w-full rounded-xl bg-light-800 py-5 shadow-sm dark:bg-dark-400">
       <p className="text-dark400_light900 paragraph-semibold px-5">
