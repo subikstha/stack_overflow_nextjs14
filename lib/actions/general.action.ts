@@ -73,9 +73,8 @@ export async function globalSearch(params: SearchParams) {
               ? item.question
               : item._id,
       }));
-
-      return JSON.stringify(results);
     }
+    return JSON.stringify(results);
 
     // Now we need to figure out what are we searching for
   } catch (error) {
